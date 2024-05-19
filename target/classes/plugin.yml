@@ -1,0 +1,15 @@
+name: CamoFreeze
+version: '1.0-SNAPSHOT'
+main: eu.camonetwork.camofreeze.CamoFreeze
+api-version: '1.15'
+prefix: Freeze
+authors: [GrapJeje]
+description: Freeze that bastard!
+
+commands:
+
+  freeze:
+    description: Freeze that bastard!
+
+  unfreeze:
+    description: Unfreeze that bastard!
