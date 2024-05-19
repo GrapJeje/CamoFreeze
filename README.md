@@ -1,0 +1,2 @@
+# CamoFreeze
+Freeze an player
