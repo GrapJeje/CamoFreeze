@@ -5,12 +5,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -66,6 +68,11 @@ public class FreezeManager implements Listener {
                     Player damager = (Player) event.getDamager();
                     damager.sendMessage(ChatColor.AQUA + "Deze speler is gefreezed");
                 }
+            } else if (event.getDamager() instanceof Player) {
+                Player damager = (Player) event.getDamager();
+                if (isPlayerFrozen(damager)) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
@@ -75,6 +82,34 @@ public class FreezeManager implements Listener {
         Player player = event.getPlayer();
         if (isPlayerFrozen(player)) {
             unfreezePlayer(player);
+        }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            Player player = (Player) event.getWhoClicked();
+            if (isPlayerFrozen(player)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onInventoryDrag(InventoryDragEvent event) {
+        if (event.getWhoClicked() instanceof Player) {
+            Player player = (Player) event.getWhoClicked();
+            if (isPlayerFrozen(player)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        if (isPlayerFrozen(player)) {
+            event.setCancelled(true);
         }
     }
 }
